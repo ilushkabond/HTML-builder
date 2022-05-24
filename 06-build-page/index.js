@@ -6,7 +6,7 @@ const cssDir = path.resolve(__dirname, 'styles');
 const htmlDir = path.resolve(__dirname, 'components');
 
 const validateHTML = html => {
-  if (!html.includes('{{')) {
+  if (html.includes('{{')) {
     let component = '';
     
     const startPosition = html.indexOf('{{');
@@ -15,7 +15,7 @@ const validateHTML = html => {
 
     readStream.on('data', data => component += data);
     readStream.on('end', () => {
-      html = html.replace(html.replace(startPosition - 4, endPosition + 2), component);
+      html = html.replace(html.slice(startPosition - 4, endPosition + 2), component);
       validateHTML(html);
     });
   } else {
